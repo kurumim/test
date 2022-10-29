@@ -4,15 +4,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity(name="Device")
+@Table(uniqueConstraints={
+        @UniqueConstraint(columnNames = {"name", "type"})
+})
 public class DeviceEntity implements GenericEntity {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)

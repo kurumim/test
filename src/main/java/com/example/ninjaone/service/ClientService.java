@@ -12,4 +12,9 @@ public class ClientService extends GenericService<ClientRequest, ClientRequest, 
     public ClientService(final ClientRepository repository, final ClientMapper mapper) {
         super(repository, mapper);
     }
+
+    @Override
+    public void validType(ClientRequest clientRequest){
+        return;
+    }
 }
