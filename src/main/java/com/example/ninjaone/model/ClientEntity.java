@@ -14,9 +14,9 @@ public class ClientEntity implements GenericEntity {
 
   private BigDecimal cost;
 
-  @ManyToMany private List<DeviceEntity> deviceEntities;
+  @ManyToMany private List<DeviceEntity> devices;
 
-  @ManyToMany private List<ServiceEntity> serviceEntities;
+  @ManyToMany private List<ServiceEntity> services;
 
   public Long getId() {
     return id;
@@ -34,19 +34,19 @@ public class ClientEntity implements GenericEntity {
     this.cost = cost;
   }
 
-  public List<DeviceEntity> getDeviceEntities() {
-    return deviceEntities;
+  public List<DeviceEntity> getDevices() {
+    return devices;
   }
 
-  public void setDeviceEntities(final List<DeviceEntity> deviceEntities) {
-    this.deviceEntities = deviceEntities;
+  public void setDevices(final List<DeviceEntity> devices) {
+    this.devices = devices;
   }
 
-  public List<ServiceEntity> getServiceEntities() {
-    return serviceEntities;
+  public List<ServiceEntity> getServices() {
+    return services;
   }
 
-  public void setServiceEntities(final List<ServiceEntity> serviceEntities) {
-    this.serviceEntities = serviceEntities;
+  public void setServices(final List<ServiceEntity> services) {
+    this.services = services;
   }
 }
