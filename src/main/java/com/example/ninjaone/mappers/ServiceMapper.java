@@ -5,5 +5,5 @@ import com.example.ninjaone.request.ServiceRequest;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface ServiceMapper extends GenericMapper<ServiceRequest,ServiceRequest, ServiceEntity> {
-}
+public interface ServiceMapper
+    extends GenericMapper<ServiceRequest, ServiceRequest, ServiceEntity> {}

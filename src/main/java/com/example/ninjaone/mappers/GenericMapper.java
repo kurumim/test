@@ -2,11 +2,11 @@ package com.example.ninjaone.mappers;
 
 import java.util.List;
 
-public interface GenericMapper<REQUEST,RESPONSE,ENTITY> {
+public interface GenericMapper<REQUEST, RESPONSE, ENTITY> {
 
-    RESPONSE toResponse(ENTITY entity);
+  RESPONSE toResponse(ENTITY entity);
 
-    List<RESPONSE> toResponse(List<ENTITY> entity);
+  List<RESPONSE> toResponse(List<ENTITY> entity);
 
-    ENTITY toEntity(REQUEST request);
+  ENTITY toEntity(REQUEST request);
 }

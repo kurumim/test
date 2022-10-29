@@ -5,6 +5,4 @@ import com.example.ninjaone.request.DeviceRequest;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface DeviceMapper extends GenericMapper<DeviceRequest,DeviceRequest,DeviceEntity> {
-
-}
+public interface DeviceMapper extends GenericMapper<DeviceRequest, DeviceRequest, DeviceEntity> {}

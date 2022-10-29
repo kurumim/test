@@ -10,10 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/services")
-public class ServiceController extends GenericController<ServiceRequest,ServiceRequest, ServiceEntity, ServiceRepository,
-        ServiceMapper, ServiceService> {
+public class ServiceController
+    extends GenericController<
+        ServiceRequest,
+        ServiceRequest,
+        ServiceEntity,
+        ServiceRepository,
+        ServiceMapper,
+        ServiceService> {
 
-    public ServiceController(final ServiceService service) {
-        super(service);
-    }
+  public ServiceController(final ServiceService service) {
+    super(service);
+  }
 }

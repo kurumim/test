@@ -7,14 +7,16 @@ import com.example.ninjaone.request.ClientRequest;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ClientService extends GenericService<ClientRequest, ClientRequest, ClientEntity, ClientRepository, ClientMapper> {
+public class ClientService
+    extends GenericService<
+        ClientRequest, ClientRequest, ClientEntity, ClientRepository, ClientMapper> {
 
-    public ClientService(final ClientRepository repository, final ClientMapper mapper) {
-        super(repository, mapper);
-    }
+  public ClientService(final ClientRepository repository, final ClientMapper mapper) {
+    super(repository, mapper);
+  }
 
-    @Override
-    public void validType(ClientRequest clientRequest){
-        return;
-    }
+  @Override
+  public void validType(ClientRequest clientRequest) {
+    return;
+  }
 }
