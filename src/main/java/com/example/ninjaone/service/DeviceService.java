@@ -1,10 +1,10 @@
 package com.example.ninjaone.service;
 
-import com.example.ninjaone.mappers.DeviceMapper;
+import com.example.ninjaone.controller.request.DeviceRequest;
 import com.example.ninjaone.model.DeviceEntity;
 import com.example.ninjaone.properties.TypeProperties;
 import com.example.ninjaone.repository.DeviceRepository;
-import com.example.ninjaone.request.DeviceRequest;
+import com.example.ninjaone.service.mappers.DeviceMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,7 +25,7 @@ public class DeviceService
 
   @Override
   public void validOperation(DeviceRequest deviceRequest) {
-    if (!typeProperties.getTypes().contains(deviceRequest.type()))
+    if (!typeProperties.getDevices().contains(deviceRequest.type()))
       throw new RuntimeException(String.format(TYPE_IS_NOT_VALID, deviceRequest.type()));
   }
 }

@@ -1,4 +1,4 @@
-package com.example.ninjaone.mappers;
+package com.example.ninjaone.service.mappers;
 
 import java.util.List;
 

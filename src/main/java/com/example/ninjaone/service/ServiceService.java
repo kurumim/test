@@ -1,10 +1,10 @@
 package com.example.ninjaone.service;
 
-import com.example.ninjaone.mappers.ServiceMapper;
+import com.example.ninjaone.controller.request.ServiceRequest;
 import com.example.ninjaone.model.ServiceEntity;
 import com.example.ninjaone.properties.TypeProperties;
 import com.example.ninjaone.repository.ServiceRepository;
-import com.example.ninjaone.request.ServiceRequest;
+import com.example.ninjaone.service.mappers.ServiceMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,7 +12,9 @@ public class ServiceService
     extends GenericService<
         ServiceRequest, ServiceRequest, ServiceEntity, ServiceRepository, ServiceMapper> {
 
-  public static final String TYPE_IS_NOT_VALID = "%s is not valid";
+  public static final String TYPE_IS_NOT_VALID = "%s type is not valid";
+
+  public static final String NAME_IS_NOT_VALID = "%s name is not valid";
   private final TypeProperties typeProperties;
 
   public ServiceService(
@@ -25,7 +27,9 @@ public class ServiceService
 
   @Override
   public void validOperation(ServiceRequest serviceRequest) {
-    if (!typeProperties.getTypes().contains(serviceRequest.type()))
+    if (!typeProperties.getDevices().contains(serviceRequest.type()))
       throw new RuntimeException(String.format(TYPE_IS_NOT_VALID, serviceRequest.type()));
+    if (!typeProperties.getServices().contains(serviceRequest.name()))
+      throw new RuntimeException(String.format(NAME_IS_NOT_VALID, serviceRequest.name()));
   }
 }

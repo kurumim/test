@@ -1,7 +1,7 @@
-package com.example.ninjaone.mappers;
+package com.example.ninjaone.service.mappers;
 
+import com.example.ninjaone.controller.request.DeviceRequest;
 import com.example.ninjaone.model.DeviceEntity;
-import com.example.ninjaone.request.DeviceRequest;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

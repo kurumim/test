@@ -1,10 +1,10 @@
 package com.example.ninjaone.service;
 
-import com.example.ninjaone.mappers.ClientMapper;
+import com.example.ninjaone.controller.request.ClientRequest;
+import com.example.ninjaone.controller.response.ClientResponse;
 import com.example.ninjaone.model.ClientEntity;
 import com.example.ninjaone.repository.ClientRepository;
-import com.example.ninjaone.request.ClientRequest;
-import com.example.ninjaone.response.ClientResponse;
+import com.example.ninjaone.service.mappers.ClientMapper;
 import org.springframework.stereotype.Service;
 
 @Service

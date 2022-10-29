@@ -1,4 +1,4 @@
-package com.example.ninjaone.controller.exceptions;
+package com.example.ninjaone.exceptions;
 
 import java.util.Collections;
 import java.util.List;

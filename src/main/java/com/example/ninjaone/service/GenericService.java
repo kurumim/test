@@ -1,7 +1,7 @@
 package com.example.ninjaone.service;
 
-import com.example.ninjaone.mappers.GenericMapper;
 import com.example.ninjaone.model.GenericEntity;
+import com.example.ninjaone.service.mappers.GenericMapper;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;

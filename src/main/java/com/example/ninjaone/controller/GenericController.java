@@ -1,8 +1,8 @@
 package com.example.ninjaone.controller;
 
-import com.example.ninjaone.mappers.GenericMapper;
 import com.example.ninjaone.model.GenericEntity;
 import com.example.ninjaone.service.GenericService;
+import com.example.ninjaone.service.mappers.GenericMapper;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.data.repository.CrudRepository;

@@ -1,5 +1,11 @@
 
-service:
-  types:
+types:
+  devices:
     - Windows
     - Mac
+  services:
+    - Device
+    - Antivirus
+    - Backup
+    - PSA
+    - Screen Share

@@ -1,4 +1,4 @@
-package com.example.ninjaone.request;
+package com.example.ninjaone.controller.request;
 
 import java.util.List;
 
