@@ -35,13 +35,13 @@ public abstract class GenericService<
   }
 
   public RESPONSE addEntity(final REQUEST input) {
-    validType(input);
+    validOperation(input);
     return mapper.toResponse(repository.save(mapper.toEntity(input)));
   }
 
   public RESPONSE updateEntity(final REQUEST input, final Long id) {
     if (!repository.existsById(id)) throw new RuntimeException(NOT_FOUND);
-    validType(input);
+    validOperation(input);
     final var entity = mapper.toEntity(input);
     entity.setId(id);
     return mapper.toResponse(repository.save(entity));
@@ -53,7 +53,7 @@ public abstract class GenericService<
     return mapper.toResponse(responses);
   }
 
-  public void validType(REQUEST request) {
+  public void validOperation(REQUEST request) {
     throw new UnsupportedOperationException();
   }
 }

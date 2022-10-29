@@ -24,7 +24,7 @@ public class ServiceService
   }
 
   @Override
-  public void validType(ServiceRequest serviceRequest) {
+  public void validOperation(ServiceRequest serviceRequest) {
     if (!typeProperties.getTypes().contains(serviceRequest.type()))
       throw new RuntimeException(String.format(TYPE_IS_NOT_VALID, serviceRequest.type()));
   }

@@ -24,7 +24,7 @@ public class DeviceService
   }
 
   @Override
-  public void validType(DeviceRequest deviceRequest) {
+  public void validOperation(DeviceRequest deviceRequest) {
     if (!typeProperties.getTypes().contains(deviceRequest.type()))
       throw new RuntimeException(String.format(TYPE_IS_NOT_VALID, deviceRequest.type()));
   }
