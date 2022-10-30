@@ -9,4 +9,6 @@ public interface GenericMapper<REQUEST, RESPONSE, ENTITY> {
   List<RESPONSE> toResponse(List<ENTITY> entity);
 
   ENTITY toEntity(REQUEST request);
+
+  ENTITY tofromResponseToEntity(RESPONSE request);
 }

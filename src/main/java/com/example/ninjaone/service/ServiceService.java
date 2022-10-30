@@ -28,9 +28,9 @@ public class ServiceService
 
   @Override
   public void validOperation(ServiceRequest serviceRequest) {
-    if (!typeProperties.getDevices().contains(serviceRequest.type()))
-      throw new ValidOperationException(String.format(TYPE_IS_NOT_VALID, serviceRequest.type()));
-    if (!typeProperties.getServices().contains(serviceRequest.name()))
-      throw new ValidOperationException(String.format(NAME_IS_NOT_VALID, serviceRequest.name()));
+    if (!typeProperties.getDevices().contains(serviceRequest.getType()))
+      throw new ValidOperationException(String.format(TYPE_IS_NOT_VALID, serviceRequest.getType()));
+    if (!typeProperties.getServices().contains(serviceRequest.getName()))
+      throw new ValidOperationException(String.format(NAME_IS_NOT_VALID, serviceRequest.getName()));
   }
 }
