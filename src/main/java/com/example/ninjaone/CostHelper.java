@@ -14,7 +14,8 @@ public class CostHelper {
 
   private CostHelper() {}
 
-  public static void calcCost(ClientResponse clientResponse, TypeProperties typeProperties) {
+  public static ClientResponse calcCost(
+      ClientResponse clientResponse, TypeProperties typeProperties) {
     Map<String, BigDecimal> countByServiceType = new HashMap<>();
     clientResponse.getServices().forEach(getServiceRequestConsumer(countByServiceType));
     Map<String, BigDecimal> quantityByDeviceType = new HashMap<>();
@@ -27,6 +28,7 @@ public class CostHelper {
             .reduce(BigDecimal::add)
             .orElse(BigDecimal.ZERO);
     clientResponse.setCost(totalCost);
+    return clientResponse;
   }
 
   private static Consumer<ServiceRequest> getServiceRequestConsumer(

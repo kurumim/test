@@ -34,7 +34,8 @@ public class GlobalExceptionHandler {
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   protected Issue handleDataIntegrityViolationException(final DataIntegrityViolationException ex) {
     return new Issue(
-        INVALID_REQUEST, Collections.singletonList(ex.getMostSpecificCause().getMessage()));
+        ex.getCause().getMessage(),
+        Collections.singletonList(ex.getCause().getCause().getMessage().split(":")[0]));
   }
 
   @ExceptionHandler(ValidOperationException.class)

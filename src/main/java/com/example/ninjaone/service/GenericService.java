@@ -5,7 +5,6 @@ import com.example.ninjaone.model.GenericEntity;
 import com.example.ninjaone.service.mappers.GenericMapper;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import org.springframework.data.repository.CrudRepository;
 
 public abstract class GenericService<
@@ -15,7 +14,7 @@ public abstract class GenericService<
     REPOSITORY extends CrudRepository<ENTITY, Long>,
     MAPPER extends GenericMapper<REQUEST, RESPONSE, ENTITY>> {
 
-  public static final String NOT_FOUND = "Entity with id %s was not Found";
+  public static final String NOT_FOUND = "Entity with id %s was not found";
   private final REPOSITORY repository;
 
   private final MAPPER mapper;
@@ -42,12 +41,13 @@ public abstract class GenericService<
   }
 
   public RESPONSE updateEntity(final REQUEST input, final Long id) {
-    if (!repository.existsById(id)) throw new ValidOperationException(NOT_FOUND);
+    if (!repository.existsById(id)) throw new ValidOperationException(String.format(NOT_FOUND, id));
     validOperation(input);
     final var entity = mapper.toEntity(input);
     entity.setId(id);
-    final var response = mapper.toResponse(repository.save(entity));
-    CompletableFuture.runAsync(this::updateCosts);
+    final var saved = repository.save(entity);
+    final var response = mapper.toResponse(saved);
+    updateCosts(saved);
     return response;
   }
 
@@ -61,7 +61,7 @@ public abstract class GenericService<
     throw new UnsupportedOperationException();
   }
 
-  public void updateCosts() {
+  public void updateCosts(ENTITY entity) {
     throw new UnsupportedOperationException();
   }
 }
