@@ -37,9 +37,9 @@ public class GlobalExceptionHandler {
         INVALID_REQUEST, Collections.singletonList(ex.getMostSpecificCause().getMessage()));
   }
 
-  @ExceptionHandler(RuntimeException.class)
+  @ExceptionHandler(ValidOperationException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-  protected Issue handleDataIntegrityViolationException(final RuntimeException ex) {
+  protected Issue handleDataIntegrityViolationException(final ValidOperationException ex) {
     return new Issue(INVALID_REQUEST, Collections.singletonList(ex.getMessage()));
   }
 }

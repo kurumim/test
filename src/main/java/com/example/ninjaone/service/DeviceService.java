@@ -1,6 +1,7 @@
 package com.example.ninjaone.service;
 
 import com.example.ninjaone.controller.request.DeviceRequest;
+import com.example.ninjaone.exceptions.ValidOperationException;
 import com.example.ninjaone.model.DeviceEntity;
 import com.example.ninjaone.properties.TypeProperties;
 import com.example.ninjaone.repository.DeviceRepository;
@@ -26,6 +27,6 @@ public class DeviceService
   @Override
   public void validOperation(DeviceRequest deviceRequest) {
     if (!typeProperties.getDevices().contains(deviceRequest.type()))
-      throw new RuntimeException(String.format(TYPE_IS_NOT_VALID, deviceRequest.type()));
+      throw new ValidOperationException(String.format(TYPE_IS_NOT_VALID, deviceRequest.type()));
   }
 }

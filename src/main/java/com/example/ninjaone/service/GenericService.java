@@ -1,5 +1,6 @@
 package com.example.ninjaone.service;
 
+import com.example.ninjaone.exceptions.ValidOperationException;
 import com.example.ninjaone.model.GenericEntity;
 import com.example.ninjaone.service.mappers.GenericMapper;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public abstract class GenericService<
     return repository
         .findById(id)
         .map(mapper::toResponse)
-        .orElseThrow(() -> new RuntimeException(String.format(NOT_FOUND, id)));
+        .orElseThrow(() -> new ValidOperationException(String.format(NOT_FOUND, id)));
   }
 
   public void deleteEntity(final Long id) {
@@ -40,7 +41,7 @@ public abstract class GenericService<
   }
 
   public RESPONSE updateEntity(final REQUEST input, final Long id) {
-    if (!repository.existsById(id)) throw new RuntimeException(NOT_FOUND);
+    if (!repository.existsById(id)) throw new ValidOperationException(NOT_FOUND);
     validOperation(input);
     final var entity = mapper.toEntity(input);
     entity.setId(id);

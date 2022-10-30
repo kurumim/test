@@ -1,6 +1,7 @@
 package com.example.ninjaone.service;
 
 import com.example.ninjaone.controller.request.ServiceRequest;
+import com.example.ninjaone.exceptions.ValidOperationException;
 import com.example.ninjaone.model.ServiceEntity;
 import com.example.ninjaone.properties.TypeProperties;
 import com.example.ninjaone.repository.ServiceRepository;
@@ -28,8 +29,8 @@ public class ServiceService
   @Override
   public void validOperation(ServiceRequest serviceRequest) {
     if (!typeProperties.getDevices().contains(serviceRequest.type()))
-      throw new RuntimeException(String.format(TYPE_IS_NOT_VALID, serviceRequest.type()));
+      throw new ValidOperationException(String.format(TYPE_IS_NOT_VALID, serviceRequest.type()));
     if (!typeProperties.getServices().contains(serviceRequest.name()))
-      throw new RuntimeException(String.format(NAME_IS_NOT_VALID, serviceRequest.name()));
+      throw new ValidOperationException(String.format(NAME_IS_NOT_VALID, serviceRequest.name()));
   }
 }
