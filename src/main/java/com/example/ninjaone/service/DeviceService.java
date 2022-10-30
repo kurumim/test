@@ -16,16 +16,12 @@ public class DeviceService
   public static final String TYPE_IS_NOT_VALID = "%s is not valid";
   private final TypeProperties typeProperties;
 
-  private final ClientService clientService;
-
   public DeviceService(
       final DeviceRepository deviceRepository,
       final DeviceMapper deviceMapper,
-      final TypeProperties typeProperties,
-      final ClientService clientService) {
+      final TypeProperties typeProperties) {
     super(deviceRepository, deviceMapper);
     this.typeProperties = typeProperties;
-    this.clientService = clientService;
   }
 
   @Override
