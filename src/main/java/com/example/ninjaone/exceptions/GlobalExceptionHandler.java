@@ -2,6 +2,7 @@ package com.example.ninjaone.exceptions;
 
 import java.util.Collections;
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -38,9 +39,23 @@ public class GlobalExceptionHandler {
         Collections.singletonList(ex.getCause().getCause().getMessage().split(":")[0]));
   }
 
+  @ExceptionHandler(EntityNotFoundException.class)
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+  protected Issue handleEntityNotFoundException(final EntityNotFoundException ex) {
+    return new Issue(
+        INVALID_REQUEST,
+        Collections.singletonList(ex.getMessage().replaceAll("[a-z]*\\.[a-z]*\\.", "")));
+  }
+
   @ExceptionHandler(ValidOperationException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   protected Issue handleDataIntegrityViolationException(final ValidOperationException ex) {
     return new Issue(INVALID_REQUEST, Collections.singletonList(ex.getMessage()));
+  }
+
+  @ExceptionHandler(Exception.class)
+  @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+  protected Issue handleDataIntegrityViolationException(final Exception ex) {
+    return new Issue("Unexpected error", Collections.singletonList(ex.getMessage()));
   }
 }

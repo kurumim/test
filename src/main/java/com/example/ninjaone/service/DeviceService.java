@@ -35,7 +35,5 @@ public class DeviceService
   }
 
   @Override
-  public void updateCosts() {
-    clientService.updateCosts();
-  }
+  public void updateCosts() {}
 }
