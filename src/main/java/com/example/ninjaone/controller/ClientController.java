@@ -44,31 +44,17 @@ public class ClientController
     return clientService.addEntity(new ClientRequest());
   }
 
-  @PostMapping("/{id}/add-services")
+  @PostMapping("/{id}/services")
   @ResponseStatus(code = HttpStatus.CREATED)
   public ClientResponse addService(
       @PathVariable("id") Long id, @RequestBody List<Long> serviceIds) {
-    return clientService.addServices(id, serviceIds);
+    return clientService.setServices(id, serviceIds);
   }
 
-  @PostMapping("/{id}/remove-services")
-  @ResponseStatus(code = HttpStatus.CREATED)
-  public ClientResponse removeService(
-      @PathVariable("id") Long id, @RequestBody List<Long> serviceIds) {
-    return clientService.removeServices(id, serviceIds);
-  }
-
-  @PostMapping("/{id}/add-devices")
+  @PostMapping("/{id}/devices")
   @ResponseStatus(code = HttpStatus.CREATED)
   public ClientResponse addDevice(@PathVariable("id") Long id, @RequestBody List<Long> deviceIds) {
-    return clientService.addDevices(id, deviceIds);
-  }
-
-  @PostMapping("/{id}/remove-devices")
-  @ResponseStatus(code = HttpStatus.CREATED)
-  public ClientResponse removeDevice(
-      @PathVariable("id") Long id, @RequestBody List<Long> deviceIds) {
-    return clientService.removeDevices(id, deviceIds);
+    return clientService.setDevices(id, deviceIds);
   }
 
   @Override

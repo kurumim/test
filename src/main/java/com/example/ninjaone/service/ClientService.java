@@ -8,7 +8,11 @@ import com.example.ninjaone.exceptions.ValidOperationException;
 import com.example.ninjaone.model.ClientEntity;
 import com.example.ninjaone.repository.ClientRepository;
 import com.example.ninjaone.service.mappers.ClientMapper;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,12 +32,12 @@ public class ClientService
   @Override
   public void validOperation(ClientRequest clientRequest) {}
 
-  public ClientResponse addServices(Long id, List<Long> serviceIds) {
-    final var cliente =
+  public ClientResponse setServices(Long id, List<Long> serviceIds) {
+    final var client =
         clientRepository
             .findById(id)
             .orElseThrow(() -> new ValidOperationException(String.format(NOT_FOUND, id)));
-    final var clientResponse = clientMapper.toResponse(cliente);
+    final var clientResponse = clientMapper.toResponse(client);
     clientResponse.setServices(
         serviceIds.stream()
             .map(
@@ -43,16 +47,20 @@ public class ClientService
                   return service;
                 })
             .toList());
-    return clientMapper.toResponse(
-        clientRepository.save(clientMapper.tofromResponseToEntity(clientResponse)));
+    final var c =
+        clientMapper.toResponse(
+            clientRepository.save(clientMapper.tofromResponseToEntity(clientResponse)));
+    calcCost(c);
+    CompletableFuture.runAsync(() -> clientRepository.save(clientMapper.tofromResponseToEntity(c)));
+    return c;
   }
 
-  public ClientResponse addDevices(Long id, List<Long> deviceIds) {
-    final var cliente =
+  public ClientResponse setDevices(Long id, List<Long> deviceIds) {
+    final var client =
         clientRepository
             .findById(id)
             .orElseThrow(() -> new ValidOperationException(String.format(NOT_FOUND, id)));
-    final var clientResponse = clientMapper.toResponse(cliente);
+    final var clientResponse = clientMapper.toResponse(client);
     clientResponse.setDevices(
         deviceIds.stream()
             .map(
@@ -62,33 +70,46 @@ public class ClientService
                   return device;
                 })
             .toList());
-    return clientMapper.toResponse(
-        clientRepository.save(clientMapper.tofromResponseToEntity(clientResponse)));
+    final var c =
+        clientMapper.toResponse(
+            clientRepository.save(clientMapper.tofromResponseToEntity(clientResponse)));
+    calcCost(c);
+    CompletableFuture.runAsync(() -> clientRepository.save(clientMapper.tofromResponseToEntity(c)));
+    return c;
   }
 
-  public ClientResponse removeServices(Long id, List<Long> serviceIds) {
-    final var cliente =
-        clientRepository
-            .findById(id)
-            .orElseThrow(() -> new ValidOperationException(String.format(NOT_FOUND, id)));
-    final var clientResponse = clientMapper.toResponse(cliente);
-    clientResponse.setServices(
-        clientResponse.getServices().stream()
-            .filter(s -> !serviceIds.contains(s.getId()))
-            .toList());
-    return clientMapper.toResponse(
-        clientRepository.save(clientMapper.tofromResponseToEntity(clientResponse)));
-  }
-
-  public ClientResponse removeDevices(Long id, List<Long> deviceIds) {
-    final var cliente =
-        clientRepository
-            .findById(id)
-            .orElseThrow(() -> new ValidOperationException(String.format(NOT_FOUND, id)));
-    final var clientResponse = clientMapper.toResponse(cliente);
-    clientResponse.setDevices(
-        clientResponse.getDevices().stream().filter(s -> !deviceIds.contains(s.getId())).toList());
-    return clientMapper.toResponse(
-        clientRepository.save(clientMapper.tofromResponseToEntity(clientResponse)));
+  private void calcCost(ClientResponse clientResponse) {
+    Map<String, BigDecimal> countByServiceType = new HashMap<>();
+    clientResponse
+        .getServices()
+        .forEach(
+            service -> {
+              countByServiceType.put(
+                  service.getType(),
+                  countByServiceType
+                      .getOrDefault(service.getType(), BigDecimal.ZERO)
+                      .add(service.getCost()));
+            });
+    Map<String, BigDecimal> quantityByDeviceType = new HashMap<>();
+    clientResponse
+        .getDevices()
+        .forEach(
+            device -> {
+              quantityByDeviceType.put(
+                  device.getType(),
+                  quantityByDeviceType
+                      .getOrDefault(device.getType(), BigDecimal.ZERO)
+                      .add(BigDecimal.ONE));
+            });
+    final var totalCost =
+        quantityByDeviceType.keySet().stream()
+            .map(
+                type ->
+                    countByServiceType
+                        .getOrDefault(type, BigDecimal.ZERO)
+                        .multiply(quantityByDeviceType.getOrDefault(type, BigDecimal.ZERO)))
+            .reduce(BigDecimal::add)
+            .orElse(BigDecimal.ZERO);
+    clientResponse.setCost(totalCost);
   }
 }
