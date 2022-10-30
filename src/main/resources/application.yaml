@@ -9,3 +9,15 @@ types:
     - Backup
     - PSA
     - Screen Share
+
+spring:
+  datasource:
+    url:  jdbc:h2:file:/data/filename
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.H2Dialect

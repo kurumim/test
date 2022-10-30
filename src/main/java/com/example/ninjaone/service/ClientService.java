@@ -10,8 +10,8 @@ import com.example.ninjaone.repository.ClientRepository;
 import com.example.ninjaone.service.mappers.ClientMapper;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +32,7 @@ public class ClientService
   @Override
   public void validOperation(ClientRequest clientRequest) {}
 
-  public ClientResponse setServices(Long id, List<Long> serviceIds) {
+  public ClientResponse setServices(Long id, Set<Long> serviceIds) {
     final var client =
         clientRepository
             .findById(id)
@@ -55,7 +55,7 @@ public class ClientService
     return c;
   }
 
-  public ClientResponse setDevices(Long id, List<Long> deviceIds) {
+  public ClientResponse setDevices(Long id, Set<Long> deviceIds) {
     final var client =
         clientRepository
             .findById(id)

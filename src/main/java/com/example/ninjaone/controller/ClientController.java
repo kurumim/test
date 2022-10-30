@@ -7,6 +7,7 @@ import com.example.ninjaone.repository.ClientRepository;
 import com.example.ninjaone.service.ClientService;
 import com.example.ninjaone.service.mappers.ClientMapper;
 import java.util.List;
+import java.util.Set;
 import javax.validation.Valid;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -46,14 +47,13 @@ public class ClientController
 
   @PostMapping("/{id}/services")
   @ResponseStatus(code = HttpStatus.CREATED)
-  public ClientResponse addService(
-      @PathVariable("id") Long id, @RequestBody List<Long> serviceIds) {
+  public ClientResponse addService(@PathVariable("id") Long id, @RequestBody Set<Long> serviceIds) {
     return clientService.setServices(id, serviceIds);
   }
 
   @PostMapping("/{id}/devices")
   @ResponseStatus(code = HttpStatus.CREATED)
-  public ClientResponse addDevice(@PathVariable("id") Long id, @RequestBody List<Long> deviceIds) {
+  public ClientResponse addDevice(@PathVariable("id") Long id, @RequestBody Set<Long> deviceIds) {
     return clientService.setDevices(id, deviceIds);
   }
 
