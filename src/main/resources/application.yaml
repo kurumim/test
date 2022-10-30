@@ -4,11 +4,13 @@ types:
     - Windows
     - Mac
   services:
-    - Device
     - Antivirus
     - Backup
     - PSA
     - Screen Share
+  costs:
+    Windows: 10
+    Mac: 15
 
 spring:
   datasource:

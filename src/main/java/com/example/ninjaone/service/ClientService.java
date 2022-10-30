@@ -8,6 +8,7 @@ import com.example.ninjaone.controller.request.ServiceRequest;
 import com.example.ninjaone.controller.response.ClientResponse;
 import com.example.ninjaone.exceptions.ValidOperationException;
 import com.example.ninjaone.model.ClientEntity;
+import com.example.ninjaone.properties.TypeProperties;
 import com.example.ninjaone.repository.ClientRepository;
 import com.example.ninjaone.service.mappers.ClientMapper;
 import java.util.Set;
@@ -23,10 +24,16 @@ public class ClientService
 
   private final ClientMapper clientMapper;
 
-  public ClientService(final ClientRepository repository, final ClientMapper mapper) {
+  private final TypeProperties typeProperties;
+
+  public ClientService(
+      final ClientRepository repository,
+      final ClientMapper mapper,
+      final TypeProperties typeProperties) {
     super(repository, mapper);
     this.clientRepository = repository;
     this.clientMapper = mapper;
+    this.typeProperties = typeProperties;
   }
 
   @Override
@@ -42,7 +49,7 @@ public class ClientService
     final var c =
         clientMapper.toResponse(
             clientRepository.save(clientMapper.tofromResponseToEntity(clientResponse)));
-    calcCost(c);
+    calcCost(c, typeProperties);
     CompletableFuture.runAsync(() -> clientRepository.save(clientMapper.tofromResponseToEntity(c)));
     return c;
   }
@@ -65,7 +72,7 @@ public class ClientService
     final var c =
         clientMapper.toResponse(
             clientRepository.save(clientMapper.tofromResponseToEntity(clientResponse)));
-    calcCost(c);
+    calcCost(c, typeProperties);
     CompletableFuture.runAsync(() -> clientRepository.save(clientMapper.tofromResponseToEntity(c)));
     return c;
   }

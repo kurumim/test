@@ -3,6 +3,7 @@ package com.example.ninjaone;
 import com.example.ninjaone.controller.request.DeviceRequest;
 import com.example.ninjaone.controller.request.ServiceRequest;
 import com.example.ninjaone.controller.response.ClientResponse;
+import com.example.ninjaone.properties.TypeProperties;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,14 +14,16 @@ public class CostHelper {
 
   private CostHelper() {}
 
-  public static void calcCost(ClientResponse clientResponse) {
+  public static void calcCost(ClientResponse clientResponse, TypeProperties typeProperties) {
     Map<String, BigDecimal> countByServiceType = new HashMap<>();
     clientResponse.getServices().forEach(getServiceRequestConsumer(countByServiceType));
     Map<String, BigDecimal> quantityByDeviceType = new HashMap<>();
     clientResponse.getDevices().forEach(getDeviceRequestConsumer(quantityByDeviceType));
     final var totalCost =
         quantityByDeviceType.keySet().stream()
-            .map(getStringBigDecimalFunction(countByServiceType, quantityByDeviceType))
+            .map(
+                getCostByServices(
+                    countByServiceType, quantityByDeviceType, typeProperties.getCosts()))
             .reduce(BigDecimal::add)
             .orElse(BigDecimal.ZERO);
     clientResponse.setCost(totalCost);
@@ -46,12 +49,14 @@ public class CostHelper {
     };
   }
 
-  private static Function<String, BigDecimal> getStringBigDecimalFunction(
+  private static Function<String, BigDecimal> getCostByServices(
       final Map<String, BigDecimal> countByServiceType,
-      final Map<String, BigDecimal> quantityByDeviceType) {
+      final Map<String, BigDecimal> quantityByDeviceType,
+      Map<String, BigDecimal> defaultValuePerDevice) {
     return type ->
         countByServiceType
             .getOrDefault(type, BigDecimal.ZERO)
-            .multiply(quantityByDeviceType.getOrDefault(type, BigDecimal.ZERO));
+            .multiply(quantityByDeviceType.getOrDefault(type, BigDecimal.ZERO))
+            .add(defaultValuePerDevice.getOrDefault(type, BigDecimal.ZERO));
   }
 }

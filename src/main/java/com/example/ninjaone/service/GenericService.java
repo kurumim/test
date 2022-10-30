@@ -5,6 +5,7 @@ import com.example.ninjaone.model.GenericEntity;
 import com.example.ninjaone.service.mappers.GenericMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import org.springframework.data.repository.CrudRepository;
 
 public abstract class GenericService<
@@ -45,7 +46,9 @@ public abstract class GenericService<
     validOperation(input);
     final var entity = mapper.toEntity(input);
     entity.setId(id);
-    return mapper.toResponse(repository.save(entity));
+    final var response = mapper.toResponse(repository.save(entity));
+    CompletableFuture.runAsync(this::updateCosts);
+    return response;
   }
 
   public List<RESPONSE> getAll() {
@@ -55,6 +58,10 @@ public abstract class GenericService<
   }
 
   public void validOperation(REQUEST request) {
+    throw new UnsupportedOperationException();
+  }
+
+  public void updateCosts() {
     throw new UnsupportedOperationException();
   }
 }
