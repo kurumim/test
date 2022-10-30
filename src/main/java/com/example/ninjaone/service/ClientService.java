@@ -1,5 +1,7 @@
 package com.example.ninjaone.service;
 
+import static com.example.ninjaone.CostHelper.calcCost;
+
 import com.example.ninjaone.controller.request.ClientRequest;
 import com.example.ninjaone.controller.request.DeviceRequest;
 import com.example.ninjaone.controller.request.ServiceRequest;
@@ -8,12 +10,8 @@ import com.example.ninjaone.exceptions.ValidOperationException;
 import com.example.ninjaone.model.ClientEntity;
 import com.example.ninjaone.repository.ClientRepository;
 import com.example.ninjaone.service.mappers.ClientMapper;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import org.springframework.stereotype.Service;
 
@@ -77,48 +75,6 @@ public class ClientService
       final var device = new DeviceRequest();
       device.setId(i);
       return device;
-    };
-  }
-
-  private void calcCost(ClientResponse clientResponse) {
-    Map<String, BigDecimal> countByServiceType = new HashMap<>();
-    clientResponse.getServices().forEach(getServiceRequestConsumer(countByServiceType));
-    Map<String, BigDecimal> quantityByDeviceType = new HashMap<>();
-    clientResponse.getDevices().forEach(getDeviceRequestConsumer(quantityByDeviceType));
-    final var totalCost =
-        quantityByDeviceType.keySet().stream()
-            .map(getStringBigDecimalFunction(countByServiceType, quantityByDeviceType))
-            .reduce(BigDecimal::add)
-            .orElse(BigDecimal.ZERO);
-    clientResponse.setCost(totalCost);
-  }
-
-  private Function<String, BigDecimal> getStringBigDecimalFunction(
-      final Map<String, BigDecimal> countByServiceType,
-      final Map<String, BigDecimal> quantityByDeviceType) {
-    return type ->
-        countByServiceType
-            .getOrDefault(type, BigDecimal.ZERO)
-            .multiply(quantityByDeviceType.getOrDefault(type, BigDecimal.ZERO));
-  }
-
-  private Consumer<DeviceRequest> getDeviceRequestConsumer(
-      final Map<String, BigDecimal> quantityByDeviceType) {
-    return device -> {
-      quantityByDeviceType.put(
-          device.getType(),
-          quantityByDeviceType.getOrDefault(device.getType(), BigDecimal.ZERO).add(BigDecimal.ONE));
-    };
-  }
-
-  private Consumer<ServiceRequest> getServiceRequestConsumer(
-      final Map<String, BigDecimal> countByServiceType) {
-    return service -> {
-      countByServiceType.put(
-          service.getType(),
-          countByServiceType
-              .getOrDefault(service.getType(), BigDecimal.ZERO)
-              .add(service.getCost()));
     };
   }
 }
