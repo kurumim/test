@@ -9,8 +9,8 @@ types:
     - PSA
     - Screen Share
   costs:
-    Windows: 10
-    Mac: 15
+    Windows: 2
+    Mac: 2
 
 spring:
   datasource:

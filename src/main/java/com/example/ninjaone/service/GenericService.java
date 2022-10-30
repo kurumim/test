@@ -47,7 +47,7 @@ public abstract class GenericService<
     entity.setId(id);
     final var saved = repository.save(entity);
     final var response = mapper.toResponse(saved);
-    updateCosts(saved);
+    updateCosts();
     return response;
   }
 
@@ -61,7 +61,7 @@ public abstract class GenericService<
     throw new UnsupportedOperationException();
   }
 
-  public void updateCosts(ENTITY entity) {
+  public void updateCosts() {
     throw new UnsupportedOperationException();
   }
 }

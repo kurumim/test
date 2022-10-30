@@ -2,6 +2,7 @@ package com.example.ninjaone.service;
 
 import static com.example.ninjaone.CostHelper.calcCost;
 
+import com.example.ninjaone.CostHelper;
 import com.example.ninjaone.controller.request.ClientRequest;
 import com.example.ninjaone.controller.request.DeviceRequest;
 import com.example.ninjaone.controller.request.ServiceRequest;
@@ -11,10 +12,11 @@ import com.example.ninjaone.model.ClientEntity;
 import com.example.ninjaone.properties.TypeProperties;
 import com.example.ninjaone.repository.ClientRepository;
 import com.example.ninjaone.service.mappers.ClientMapper;
+import java.util.ArrayList;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 @Service
 public class ClientService
@@ -50,7 +52,7 @@ public class ClientService
         clientMapper.toResponse(
             clientRepository.save(clientMapper.tofromResponseToEntity(clientResponse)));
     calcCost(c, typeProperties);
-    CompletableFuture.runAsync(() -> clientRepository.save(clientMapper.tofromResponseToEntity(c)));
+    clientRepository.save(clientMapper.tofromResponseToEntity(c));
     return c;
   }
 
@@ -73,7 +75,7 @@ public class ClientService
         clientMapper.toResponse(
             clientRepository.save(clientMapper.tofromResponseToEntity(clientResponse)));
     calcCost(c, typeProperties);
-    CompletableFuture.runAsync(() -> clientRepository.save(clientMapper.tofromResponseToEntity(c)));
+    clientRepository.save(clientMapper.tofromResponseToEntity(c));
     return c;
   }
 
@@ -83,5 +85,22 @@ public class ClientService
       device.setId(i);
       return device;
     };
+  }
+
+  @Override
+  public void updateCosts() {
+    final var clients = new ArrayList<>();
+    final var tmp = clientRepository.findAll();
+    tmp.forEach(clients::add);
+    if (!CollectionUtils.isEmpty(clients)) {
+      clientRepository.saveAll(
+          clients.stream()
+              .map(
+                  c ->
+                      CostHelper.calcCost(
+                          clientMapper.toResponse((ClientEntity) c), typeProperties))
+              .map(clientMapper::tofromResponseToEntity)
+              .toList());
+    }
   }
 }

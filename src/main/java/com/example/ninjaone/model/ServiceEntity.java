@@ -1,13 +1,11 @@
 package com.example.ninjaone.model;
 
 import java.math.BigDecimal;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -24,17 +22,6 @@ public class ServiceEntity implements GenericEntity {
   @Column private BigDecimal cost;
 
   @Column private String type;
-
-  @ManyToMany(mappedBy = "services")
-  private List<ClientEntity> clients;
-
-  public List<ClientEntity> getClients() {
-    return clients;
-  }
-
-  public void setClients(final List<ClientEntity> clients) {
-    this.clients = clients;
-  }
 
   public String getType() {
     return type;

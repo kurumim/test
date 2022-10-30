@@ -16,17 +16,26 @@ public class DeviceService
   public static final String TYPE_IS_NOT_VALID = "%s is not valid";
   private final TypeProperties typeProperties;
 
+  private final ClientService clientService;
+
   public DeviceService(
       final DeviceRepository deviceRepository,
       final DeviceMapper deviceMapper,
-      final TypeProperties typeProperties) {
+      final TypeProperties typeProperties,
+      final ClientService clientService) {
     super(deviceRepository, deviceMapper);
     this.typeProperties = typeProperties;
+    this.clientService = clientService;
   }
 
   @Override
   public void validOperation(DeviceRequest deviceRequest) {
     if (!typeProperties.getDevices().contains(deviceRequest.getType()))
       throw new ValidOperationException(String.format(TYPE_IS_NOT_VALID, deviceRequest.getType()));
+  }
+
+  @Override
+  public void updateCosts() {
+    clientService.updateCosts();
   }
 }
