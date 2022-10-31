@@ -6,6 +6,8 @@ import com.example.ninjaone.model.ServiceEntity;
 import com.example.ninjaone.properties.TypeProperties;
 import com.example.ninjaone.repository.ServiceRepository;
 import com.example.ninjaone.service.mappers.ServiceMapper;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,10 +34,12 @@ public class ServiceService
 
   @Override
   public void validOperation(ServiceRequest serviceRequest) {
+    final List<String> errors = new ArrayList<>();
     if (!typeProperties.getDevices().contains(serviceRequest.getType()))
-      throw new ValidOperationException(String.format(TYPE_IS_NOT_VALID, serviceRequest.getType()));
+      errors.add(String.format(TYPE_IS_NOT_VALID, serviceRequest.getType()));
     if (!typeProperties.getServices().contains(serviceRequest.getName()))
-      throw new ValidOperationException(String.format(NAME_IS_NOT_VALID, serviceRequest.getName()));
+      errors.add(String.format(NAME_IS_NOT_VALID, serviceRequest.getName()));
+    if (!errors.isEmpty()) throw new ValidOperationException(errors);
   }
 
   @Override

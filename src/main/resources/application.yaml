@@ -14,7 +14,7 @@ types:
 
 spring:
   datasource:
-    url:  jdbc:h2:file:/data/filename
+    url:  jdbc:h2:file:/tmp/filename
     username: sa
     password: password
     driverClassName: org.h2.Driver
