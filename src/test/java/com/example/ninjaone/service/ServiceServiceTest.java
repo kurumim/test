@@ -17,28 +17,33 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static com.example.ninjaone.constants.TestConstants.INVALID;
+import static com.example.ninjaone.constants.TestConstants.MAC;
+import static com.example.ninjaone.constants.TestConstants.NOT_FOUND;
+import static com.example.ninjaone.constants.TestConstants.TYPE_IS_NOT_VALID;
+import static com.example.ninjaone.constants.TestConstants.WINDOWS;
+
 @RunWith(MockitoJUnitRunner.class)
 public class ServiceServiceTest {
 
-  public static final String NAME_IS_NOT_VALID = "%s name is not valid";
-  public static final String TYPE_IS_NOT_VALID = "%s type is not valid";
-  public static final String INVALID = "Invalid";
+  private static final String NAME_IS_NOT_VALID = "%s name is not valid";
+
+  private static final String BACKUP = "Backup";
   @Mock private ServiceRepository repository;
 
-  private ServiceMapperImpl mapper = new ServiceMapperImpl();
+  private final ServiceMapperImpl mapper = new ServiceMapperImpl();
   @Mock private TypeProperties typeProperties;
 
   @Mock private ClientService clientService;
 
-  @InjectMocks private ServiceService service;
+  private ServiceService service;
 
-  private static final String NOT_FOUND = "Entity with id %s was not found";
 
   @Before
   public void setup() {
     Mockito.when(typeProperties.getServices())
-        .thenReturn(List.of("Antivirus", "Backup", "PSA", "Screen Share"));
-    Mockito.when(typeProperties.getDevices()).thenReturn(List.of("Windows", "Mac"));
+        .thenReturn(List.of("Antivirus", BACKUP, "PSA", "Screen Share"));
+    Mockito.when(typeProperties.getDevices()).thenReturn(List.of(WINDOWS, MAC));
     this.service = new ServiceService(repository, mapper, typeProperties, clientService);
   }
 
@@ -60,7 +65,7 @@ public class ServiceServiceTest {
   @Test
   public void assertThrExceptionWhenInvalidService() {
     final var serviceRequest = new ServiceRequest();
-    serviceRequest.setType("Windows");
+    serviceRequest.setType(WINDOWS);
     serviceRequest.setName(INVALID);
     Assertions.assertThatCode(() -> service.validOperation(serviceRequest))
         .isInstanceOf(ValidOperationException.class)
@@ -74,7 +79,7 @@ public class ServiceServiceTest {
   public void assertThrExceptionWhenInvalidType() {
     final var serviceRequest = new ServiceRequest();
     serviceRequest.setType(INVALID);
-    serviceRequest.setName("Backup");
+    serviceRequest.setName(BACKUP);
     Assertions.assertThatCode(() -> service.validOperation(serviceRequest))
         .isInstanceOf(ValidOperationException.class)
         .extracting(throwable -> ((ValidOperationException) throwable).getMessages())
@@ -86,8 +91,8 @@ public class ServiceServiceTest {
   @Test
   public void assertNotThrException() {
     final var serviceRequest = new ServiceRequest();
-    serviceRequest.setType("Mac");
-    serviceRequest.setName("Backup");
+    serviceRequest.setType(MAC);
+    serviceRequest.setName(BACKUP);
     Assertions.assertThatCode(() -> service.validOperation(serviceRequest))
         .doesNotThrowAnyException();
   }
@@ -95,8 +100,8 @@ public class ServiceServiceTest {
   @Test
   public void assertUpdateCostWhenUpdate() {
     final var serviceRequest = new ServiceRequest();
-    serviceRequest.setType("Mac");
-    serviceRequest.setName("Backup");
+    serviceRequest.setType(MAC);
+    serviceRequest.setName(BACKUP);
     serviceRequest.setCost(BigDecimal.TEN);
     Mockito.when(repository.existsById(1L)).thenReturn(true);
     service.updateEntity(serviceRequest, 1L);
@@ -106,8 +111,8 @@ public class ServiceServiceTest {
   @Test
   public void assertUpdateThrExceptionWhenNotExist() {
     final var serviceRequest = new ServiceRequest();
-    serviceRequest.setType("Mac");
-    serviceRequest.setName("Backup");
+    serviceRequest.setType(MAC);
+    serviceRequest.setName(BACKUP);
     serviceRequest.setCost(BigDecimal.TEN);
     Mockito.when(repository.existsById(1L)).thenReturn(false);
     Assertions.assertThatCode(() -> service.updateEntity(serviceRequest, 1L))

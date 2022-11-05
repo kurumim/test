@@ -8,12 +8,13 @@ import com.example.ninjaone.repository.DeviceRepository;
 import com.example.ninjaone.service.mappers.DeviceMapper;
 import org.springframework.stereotype.Service;
 
+import static com.example.ninjaone.constants.ServiceConstants.TYPE_IS_NOT_VALID;
+
 @Service
 public class DeviceService
     extends GenericService<
         DeviceRequest, DeviceRequest, DeviceEntity, DeviceRepository, DeviceMapper> {
 
-  public static final String TYPE_IS_NOT_VALID = "%s is not valid";
   private final TypeProperties typeProperties;
 
   public DeviceService(

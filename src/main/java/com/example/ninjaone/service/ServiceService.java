@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
+import static com.example.ninjaone.constants.ServiceConstants.TYPE_IS_NOT_VALID;
+
 @Service
 public class ServiceService
     extends GenericService<
         ServiceRequest, ServiceRequest, ServiceEntity, ServiceRepository, ServiceMapper> {
 
-  public static final String TYPE_IS_NOT_VALID = "%s type is not valid";
-
-  public static final String NAME_IS_NOT_VALID = "%s name is not valid";
+  private static final String NAME_IS_NOT_VALID = "%s name is not valid";
   private final TypeProperties typeProperties;
 
   private final ClientService clientService;

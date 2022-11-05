@@ -13,6 +13,7 @@ import com.example.ninjaone.properties.TypeProperties;
 import com.example.ninjaone.repository.ClientRepository;
 import com.example.ninjaone.service.mappers.ClientMapper;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class ClientService
   @Override
   public void validOperation(ClientRequest clientRequest) {}
 
-  public ClientResponse setServices(Long id, Set<Long> serviceIds) {
+  public ClientResponse setServices(Long id, List<Long> serviceIds) {
     final var client =
         clientRepository
             .findById(id)
@@ -64,7 +65,7 @@ public class ClientService
     };
   }
 
-  public ClientResponse setDevices(Long id, Set<Long> deviceIds) {
+  public ClientResponse setDevices(Long id, List<Long> deviceIds) {
     final var client =
         clientRepository
             .findById(id)

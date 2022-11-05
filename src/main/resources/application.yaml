@@ -1,3 +1,17 @@
+server:
+  port: 8080
+
+swaggerBaseUrl: ${SWAGGER_BASE_URL:http://localhost:${server.port}}
+
+springdoc:
+  packagesToScan: [ com.example.ninjaone.controller ]
+  model-and-view-allowed: true
+  override-with-generic-response: false
+  swagger-ui:
+    url: ${swaggerBaseUrl}/v3/api-docs
+    configUrl: ${swaggerBaseUrl}/v3/api-docs/swagger-config
+
+
 
 types:
   devices:
