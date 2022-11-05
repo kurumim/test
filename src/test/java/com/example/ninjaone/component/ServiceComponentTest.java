@@ -5,13 +5,13 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 
-import com.example.ninjaone.controller.request.DeviceRequest;
+import com.example.ninjaone.controller.request.ServiceRequest;
+import java.math.BigDecimal;
 import org.junit.Test;
 
-public class DeviceComponentTest extends BaseComponent {
+public class ServiceComponentTest extends BaseComponent {
 
-  private static final String WORKSTATION = "Workstation";
-  private static final String DEVICES = "/devices";
+  private static final String DEVICES = "/services";
   private static final String MESSAGE = "message";
   private static final String ERRORS = "errors";
   private static final String ENTITY_WITH_ID_100_WAS_NOT_FOUND = "Entity with id 100 was not found";
@@ -19,7 +19,7 @@ public class DeviceComponentTest extends BaseComponent {
   public static final String DEVICE_ID = "/100";
 
   @Test
-  public void validateNotFoundWhenGetDevice() {
+  public void validateNotFoundWhenGetService() {
     given()
         .when()
         .get(DEVICES.concat(DEVICE_ID))
@@ -30,9 +30,10 @@ public class DeviceComponentTest extends BaseComponent {
   }
 
   @Test
-  public void validateNotFoundWhenPutDevice() {
-    final var request = new DeviceRequest();
-    request.setName(WORKSTATION);
+  public void validateNotFoundWhenPutService() {
+    final var request = new ServiceRequest();
+    request.setName("Antivirus");
+    request.setCost(BigDecimal.TEN);
     request.setType(WINDOWS);
     given()
         .contentType(io.restassured.http.ContentType.JSON)
@@ -46,8 +47,8 @@ public class DeviceComponentTest extends BaseComponent {
   }
 
   @Test
-  public void validateNotFoundWhenPutWithoutNameDevice() {
-    final var request = new DeviceRequest();
+  public void validateNotFoundWhenPutWithoutNameService() {
+    final var request = new ServiceRequest();
     request.setType(WINDOWS);
     given()
         .contentType(io.restassured.http.ContentType.JSON)
@@ -61,9 +62,10 @@ public class DeviceComponentTest extends BaseComponent {
   }
 
   @Test
-  public void validateNotFoundWhenPutWithoutTypeDevice() {
-    final var request = new DeviceRequest();
-    request.setName(WORKSTATION);
+  public void validateNotFoundWhenPutWithoutTypeService() {
+    final var request = new ServiceRequest();
+    request.setName("PSA");
+    request.setCost(BigDecimal.TEN);
     request.setType("");
     given()
         .contentType(io.restassured.http.ContentType.JSON)
@@ -73,12 +75,12 @@ public class DeviceComponentTest extends BaseComponent {
         .then()
         .statusCode(400)
         .body(MESSAGE, is(INVALID_REQUEST))
-        .body(ERRORS, hasItem("type: can't be empty"));
+        .body(ERRORS, hasItem("type: can't be null"));
   }
 
   @Test
-  public void validateNotFoundWhenPutWithoutTypeAndNameDevice() {
-    final var request = new DeviceRequest();
+  public void validateNotFoundWhenPutWithoutTypeAndNameService() {
+    final var request = new ServiceRequest();
     request.setName("");
     request.setType("");
     given()
@@ -89,14 +91,16 @@ public class DeviceComponentTest extends BaseComponent {
         .then()
         .statusCode(400)
         .body(MESSAGE, is(INVALID_REQUEST))
-        .body(ERRORS, hasItem("type: can't be empty"))
+        .body(ERRORS, hasItem("type: can't be null"))
+        .body(ERRORS, hasItem("cost: can't be null"))
         .body(ERRORS, hasItem("name: can't be empty"));
   }
 
   @Test
-  public void validateNotFoundWhenPutWithInvalidTypeDevice() {
-    final var request = new DeviceRequest();
-    request.setName(WINDOWS);
+  public void validateNotFoundWhenPutWithInvalidTypeService() {
+    final var request = new ServiceRequest();
+    request.setName("Backup");
+    request.setCost(BigDecimal.TEN);
     request.setType("IOS");
     given()
         .contentType(io.restassured.http.ContentType.JSON)
@@ -110,13 +114,13 @@ public class DeviceComponentTest extends BaseComponent {
   }
 
   @Test
-  public void validateNotFoundWhenDeleteDevice() {
+  public void validateNotFoundWhenDeleteService() {
     given()
         .when()
         .delete(DEVICES.concat(DEVICE_ID))
         .then()
         .statusCode(400)
         .body(MESSAGE, is(INVALID_REQUEST))
-        .body(ERRORS, hasItem("No class DeviceEntity entity with id 100 exists!"));
+        .body(ERRORS, hasItem("No class ServiceEntity entity with id 100 exists!"));
   }
 }
