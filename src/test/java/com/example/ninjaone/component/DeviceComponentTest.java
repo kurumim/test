@@ -19,7 +19,6 @@ public class DeviceComponentTest extends BaseComponent {
         .body("message", is("invalid request"))
         .body("errors", hasItem("Entity with id 100 was not found"));
   }
-  
 
   @Test
   public void validateNotFoundWhenPutDevice() {

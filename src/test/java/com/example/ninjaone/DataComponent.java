@@ -30,17 +30,21 @@ public class DataComponent {
 
   @PostConstruct
   public void setupData() {
-    final List<DeviceEntity> devices = new LinkedList<>();
-    final var names = List.of("Workstation", "PC", "Server", "MacBook", "Notebook");
-    final var types = List.of("Windows", "Windows", "Windows", "Mac", "Mac");
-    IntStream.range(0, 5)
-        .forEach(
-            i -> {
-              final var device = new DeviceEntity();
-              device.setName(names.get(i));
-              device.setType(types.get(i));
-              devices.add(device);
-            });
-    deviceRepository.saveAll(devices);
+      setupDevices();
   }
+
+    private void setupDevices() {
+        final List<DeviceEntity> devices = new LinkedList<>();
+        final var names = List.of("Workstation", "PC", "Server", "MacBook", "Notebook");
+        final var types = List.of("Windows", "Windows", "Windows", "Mac", "Mac");
+        IntStream.range(0, 5)
+            .forEach(
+                i -> {
+                  final var device = new DeviceEntity();
+                  device.setName(names.get(i));
+                  device.setType(types.get(i));
+                  devices.add(device);
+                });
+        deviceRepository.saveAll(devices);
+    }
 }
