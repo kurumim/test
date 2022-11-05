@@ -6,11 +6,9 @@ import com.example.ninjaone.model.ClientEntity;
 import com.example.ninjaone.repository.ClientRepository;
 import com.example.ninjaone.service.ClientService;
 import com.example.ninjaone.service.mappers.ClientMapper;
-import java.util.List;
-import java.util.Set;
-import javax.validation.Valid;
-
 import io.swagger.v3.oas.annotations.Hidden;
+import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,7 +47,8 @@ public class ClientController
 
   @PostMapping("/{id}/services")
   @ResponseStatus(code = HttpStatus.CREATED)
-  public ClientResponse addService(@PathVariable("id") Long id, @RequestBody List<Long> serviceIds) {
+  public ClientResponse addService(
+      @PathVariable("id") Long id, @RequestBody List<Long> serviceIds) {
     return clientService.setServices(id, serviceIds);
   }
 
@@ -58,7 +57,6 @@ public class ClientController
   public ClientResponse addDevice(@PathVariable("id") Long id, @RequestBody List<Long> deviceIds) {
     return clientService.setDevices(id, deviceIds);
   }
-
 
   @Hidden
   @Override

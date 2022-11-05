@@ -2,8 +2,10 @@ package com.example.ninjaone.exceptions;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -45,6 +47,15 @@ public class GlobalExceptionHandler {
     return new Issue(
         INVALID_REQUEST,
         Collections.singletonList(ex.getMessage().replaceAll("[a-z]*\\.[a-z]*\\.", "")));
+  }
+
+  @ExceptionHandler(EmptyResultDataAccessException.class)
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+  protected Issue handleEmptyResultDataAccessException(final EmptyResultDataAccessException ex) {
+    return new Issue(
+        INVALID_REQUEST,
+        Collections.singletonList(
+            Objects.requireNonNull(ex.getMessage()).replaceAll("[a-z]*\\.[a-z]*\\.", "")));
   }
 
   @ExceptionHandler(ValidOperationException.class)

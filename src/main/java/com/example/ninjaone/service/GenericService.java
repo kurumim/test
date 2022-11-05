@@ -41,8 +41,8 @@ public abstract class GenericService<
   }
 
   public RESPONSE updateEntity(final REQUEST input, final Long id) {
-    if (!repository.existsById(id)) throw new ValidOperationException(String.format(NOT_FOUND, id));
     validOperation(input);
+    if (!repository.existsById(id)) throw new ValidOperationException(String.format(NOT_FOUND, id));
     final var entity = mapper.toEntity(input);
     entity.setId(id);
     final var saved = repository.save(entity);

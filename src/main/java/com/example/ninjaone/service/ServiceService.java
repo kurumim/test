@@ -1,5 +1,7 @@
 package com.example.ninjaone.service;
 
+import static com.example.ninjaone.constants.ServiceConstants.TYPE_IS_NOT_VALID;
+
 import com.example.ninjaone.controller.request.ServiceRequest;
 import com.example.ninjaone.exceptions.ValidOperationException;
 import com.example.ninjaone.model.ServiceEntity;
@@ -9,8 +11,6 @@ import com.example.ninjaone.service.mappers.ServiceMapper;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
-
-import static com.example.ninjaone.constants.ServiceConstants.TYPE_IS_NOT_VALID;
 
 @Service
 public class ServiceService

@@ -1,5 +1,7 @@
 package com.example.ninjaone.service;
 
+import static com.example.ninjaone.constants.ServiceConstants.TYPE_IS_NOT_VALID;
+
 import com.example.ninjaone.controller.request.DeviceRequest;
 import com.example.ninjaone.exceptions.ValidOperationException;
 import com.example.ninjaone.model.DeviceEntity;
@@ -7,8 +9,6 @@ import com.example.ninjaone.properties.TypeProperties;
 import com.example.ninjaone.repository.DeviceRepository;
 import com.example.ninjaone.service.mappers.DeviceMapper;
 import org.springframework.stereotype.Service;
-
-import static com.example.ninjaone.constants.ServiceConstants.TYPE_IS_NOT_VALID;
 
 @Service
 public class DeviceService

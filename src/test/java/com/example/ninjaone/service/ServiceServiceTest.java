@@ -1,5 +1,11 @@
 package com.example.ninjaone.service;
 
+import static com.example.ninjaone.constants.TestConstants.INVALID;
+import static com.example.ninjaone.constants.TestConstants.MAC;
+import static com.example.ninjaone.constants.TestConstants.NOT_FOUND;
+import static com.example.ninjaone.constants.TestConstants.TYPE_IS_NOT_VALID;
+import static com.example.ninjaone.constants.TestConstants.WINDOWS;
+
 import com.example.ninjaone.controller.request.ServiceRequest;
 import com.example.ninjaone.exceptions.ValidOperationException;
 import com.example.ninjaone.properties.TypeProperties;
@@ -12,16 +18,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import static com.example.ninjaone.constants.TestConstants.INVALID;
-import static com.example.ninjaone.constants.TestConstants.MAC;
-import static com.example.ninjaone.constants.TestConstants.NOT_FOUND;
-import static com.example.ninjaone.constants.TestConstants.TYPE_IS_NOT_VALID;
-import static com.example.ninjaone.constants.TestConstants.WINDOWS;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ServiceServiceTest {
@@ -37,7 +36,6 @@ public class ServiceServiceTest {
   @Mock private ClientService clientService;
 
   private ServiceService service;
-
 
   @Before
   public void setup() {
