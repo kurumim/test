@@ -17,12 +17,16 @@ public class DeviceService
 
   private final TypeProperties typeProperties;
 
+  private final ClientService clientService;
+
   public DeviceService(
       final DeviceRepository deviceRepository,
       final DeviceMapper deviceMapper,
-      final TypeProperties typeProperties) {
+      final TypeProperties typeProperties,
+      final ClientService clientService) {
     super(deviceRepository, deviceMapper);
     this.typeProperties = typeProperties;
+    this.clientService = clientService;
   }
 
   @Override
@@ -32,5 +36,7 @@ public class DeviceService
   }
 
   @Override
-  public void updateCosts() {}
+  public void updateCosts() {
+    clientService.updateCosts();
+  }
 }

@@ -29,12 +29,14 @@ public class DeviceServiceTest {
   @Mock private DeviceMapperImpl deviceMapper;
   @Mock private TypeProperties typeProperties;
 
+  @Mock private ClientService clientService;
+
   private DeviceService service;
 
   @Before
   public void setup() {
     Mockito.when(typeProperties.getDevices()).thenReturn(List.of(WINDOWS, MAC));
-    this.service = new DeviceService(repository, deviceMapper, typeProperties);
+    this.service = new DeviceService(repository, deviceMapper, typeProperties, clientService);
   }
 
   @Test
