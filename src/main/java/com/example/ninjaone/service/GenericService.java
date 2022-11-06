@@ -6,6 +6,7 @@ import com.example.ninjaone.service.mappers.GenericMapper;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 public abstract class GenericService<
     REQUEST,
@@ -40,6 +41,7 @@ public abstract class GenericService<
     return mapper.toResponse(repository.save(mapper.toEntity(input)));
   }
 
+  @Transactional
   public RESPONSE updateEntity(final REQUEST input, final Long id) {
     validOperation(input);
     if (!repository.existsById(id)) throw new ValidOperationException(String.format(NOT_FOUND, id));

@@ -59,6 +59,9 @@ public class CostHelper {
         countByServiceType
             .getOrDefault(type, BigDecimal.ZERO)
             .multiply(quantityByDeviceType.getOrDefault(type, BigDecimal.ZERO))
-            .add(defaultValuePerDevice.getOrDefault(type, BigDecimal.ZERO));
+            .add(
+                defaultValuePerDevice
+                    .getOrDefault(type, BigDecimal.ZERO)
+                    .multiply(quantityByDeviceType.getOrDefault(type, BigDecimal.ZERO)));
   }
 }

@@ -82,7 +82,7 @@ public class DataComponent {
   }
 
   private void setupClient() {
-    IntStream.range(0, 5)
+    IntStream.range(0, 10)
         .forEach(
             i -> {
               clientRepository.save(new ClientEntity());
